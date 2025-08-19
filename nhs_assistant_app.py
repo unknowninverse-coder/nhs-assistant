@@ -1,6 +1,6 @@
 import streamlit as st
 
-# --- Helper Functions ---
+# Helper Functions
 def show_recommendation(service_type, title, description, details):
     st.markdown("## " + title)
     st.markdown(f"**Service:** {service_type}")
@@ -9,7 +9,7 @@ def show_recommendation(service_type, title, description, details):
         st.write(details)
     st.markdown("---")
 
-# --- Symptom Flows ---
+# Symptom Flow Trees
 def sore_throat_flow():
     choice = st.radio("How long have you had these symptoms?", 
                       ["Less than a week", "More than a week"])
@@ -21,18 +21,18 @@ def sore_throat_flow():
             show_recommendation(
                 "Self-Care",
                 "Recommendation: Self-Care",
-                "For a recent sore throat with no breathing issues, self-care at home is usually best.",
-                "Rest, drink plenty of fluids, and you can use over-the-counter lozenges or pain relief. If your symptoms don't improve in a week or get worse, please check back or contact your GP."
+                "For a recent sore throat with no breathing issues, self-care at home is usually best option to proceed with.",
+                "Rest, drink plenty of water, and you can use over-the-counter/prescribed lozenges or pain relief. If your symptoms don't improve in a week or get worse, please contact your local GP."
             )
         else:
             emergency_flow("difficulty breathing")
     else:
-        worse_choice = st.radio("Since it's been over a week, are your symptoms getting worse?", 
-                                ["No, they're about the same", "Yes, they are getting worse"])
+        worse_choice = st.radio("I'm sorry to hear this, Since it's been over a week, are your symptoms getting worse?", 
+                                ["No, they're pretty much the same", "Yes, they are getting worse"])
         show_recommendation(
             "GP",
-            "Recommendation: Contact Your GP",
-            "As your symptoms have lasted for a while, it's best to speak with a GP.",
+            "Recommendation: Contact Your local GP",
+            "As your symptoms have lasted for a while, it's best to speak with a GP, before your condition could potentially worsen.",
             "They can properly diagnose the issue and suggest a course of treatment. Please book a non-urgent appointment with your GP surgery."
         )
 
@@ -47,7 +47,7 @@ def skin_rash_flow():
                 "Pharmacy",
                 "Recommendation: Visit a Pharmacy",
                 "A local pharmacist can help with itchy or irritated rashes.",
-                "They can look at the rash and recommend over-the-counter creams or antihistamines. They will tell you if you need to see a GP."
+                "They can look at the rash and recommend over-the-counter creams or antihistamines. They will tell you whether or not you need to see a GP."
             )
         else:
             show_recommendation(
@@ -77,8 +77,8 @@ def emergency_flow(symptom_description):
 # --- Main App ---
 def main():
     st.title("NHS Virtual Assistant 🏥")
-    st.write("⚠️ If this is a life-threatening emergency, please call **999** immediately. This service is for guidance only.")
-
+    st.write("⚠️ If this is a life-threatening emergency, please call **999** immediately. This service is NOT official and is for guidance only.")
+    st.write("Produced by Jayden Siluvaimani")
     main_symptom = st.radio("What is your main symptom?", 
                             ["Sore Throat / Cold", "Skin Rash", "Headache", "Chest Pain"])
 
@@ -93,3 +93,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
