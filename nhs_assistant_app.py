@@ -27,12 +27,12 @@ def sore_throat_flow():
         else:
             emergency_flow("difficulty breathing")
     else:
-        worse_choice = st.radio("I'm sorry to hear this, Since it's been over a week, are your symptoms getting worse?", 
+        worse_choice = st.radio("Since it's been over a week, are your symptoms getting worse?", 
                                 ["No, they're pretty much the same", "Yes, they are getting worse"])
         show_recommendation(
             "GP",
             "Recommendation: Contact Your local GP",
-            "As your symptoms have lasted for a while, it's best to speak with a GP, before your condition could potentially worsen.",
+            "As your symptoms have lasted for a while, it's best to speak with a GP before your condition could potentially worsen.",
             "They can properly diagnose the issue and suggest a course of treatment. Please book a non-urgent appointment with your GP surgery."
         )
 
@@ -66,6 +66,61 @@ def skin_rash_flow():
     else:
         emergency_flow("a rash and difficulty breathing")
 
+def headache_flow():
+    choice = st.radio("How severe is your headache?", 
+                      ["Mild", "Moderate", "Severe"])
+
+    if choice == "Mild":
+        duration_choice = st.radio("How long have you had this headache?", 
+                                   ["Less than a day", "More than a day"])
+        if duration_choice == "Less than a day":
+            show_recommendation(
+                "Self-Care",
+                "Recommendation: Self-Care",
+                "For a mild headache lasting less than a day, self-care at home is usually sufficient.",
+                "Rest, stay hydrated, and consider over-the-counter pain relief like paracetamol or ibuprofen. If symptoms worsen or persist, contact your GP."
+            )
+        else:
+            show_recommendation(
+                "GP",
+                "Recommendation: Contact Your GP",
+                "A mild headache lasting more than a day should be checked by a doctor.",
+                "Book a non-urgent appointment with your GP to rule out underlying causes."
+            )
+
+    elif choice == "Moderate":
+        nausea_choice = st.radio("Are you experiencing nausea, vomiting, or visual disturbances?", 
+                                 ["No", "Yes"])
+        if nausea_choice == "No":
+            show_recommendation(
+                "Self-Care / GP",
+                "Recommendation: Self-Care or GP Advice",
+                "Moderate headaches without other symptoms can often be managed at home.",
+                "Rest, hydration, and over-the-counter pain relief. If the headache persists for several days or worsens, see your GP."
+            )
+        else:
+            show_recommendation(
+                "GP",
+                "Recommendation: Contact Your GP",
+                "Moderate headache with nausea, vomiting, or visual disturbances may require medical attention.",
+                "Please contact your GP for assessment and advice."
+            )
+
+    else:  # Severe
+        emergency_symptoms = st.radio(
+            "Do you have any of the following: sudden severe pain, weakness, slurred speech, confusion, fever, neck stiffness, or vision changes?", 
+            ["No", "Yes"]
+        )
+        if emergency_symptoms == "Yes":
+            emergency_flow("a severe headache with concerning symptoms")
+        else:
+            show_recommendation(
+                "GP",
+                "Recommendation: Contact Your GP",
+                "A severe headache without classic emergency signs still warrants a doctor’s advice.",
+                "Please contact your GP as soon as possible for assessment."
+            )
+
 def emergency_flow(symptom_description):
     show_recommendation(
         "A&E / 999",
@@ -87,10 +142,12 @@ def main():
     elif main_symptom == "Skin Rash":
         skin_rash_flow()
     elif main_symptom == "Headache":
-        st.info("Headache flow not yet implemented.")
+        headache_flow()
     elif main_symptom == "Chest Pain":
         emergency_flow("chest pain")
 
 if __name__ == "__main__":
     main()
+
+
 
